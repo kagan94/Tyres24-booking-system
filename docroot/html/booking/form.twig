@@ -1,0 +1,142 @@
+{% extends "index.twig" %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert" style="{{ errors is empty ? 'display: none;' : '' }}">
+                {#{%  if errors is not empty %}#}
+                {% for error in errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="pull-left">{{ booking.id is null or booking.id == '' ? "New Booking" : "Edit existing booking" }}</h1>
+            {% if booking.id is not null and booking.id != '' %}
+            <div class="pull-right">
+                <span id="creation-datetime"><b>Creation date:</b> {{ booking.datetimeAdded }}</span><br>
+                {% if booking.datetimeModified is not null %}
+                <span id="modification-datetime"><b>Last modification:</b> {{ booking.datetimeModified }} </span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-1">
+            <form class="form-horizontal" id="new-booking" method="post" action="{{ form_action }}">
+                <fieldset>
+                    <legend>Please enter the booking information</legend>
+                    <input type="text" class="hidden" id="bookingID" name="id" value="{{ booking.id }}">
+                    <div class="form-group required">
+                        <label for="startDatetime" class="col-sm-4 control-label" >Booking start datetime</label>
+                        <div class="col-sm-8">
+                            <div class='input-group'>
+                                <input type="text" class="form-control datetime" id="startDatetime" required="true"
+                                       name="startDatetime" placeholder="Booking start date and time" value="{{ booking.startDatetime }}"
+                                       data-date-format="DD.MM.YYYY HH:mm">
+                                <div class="input-group-btn"><button type="button" class="btn btn-default" onclick="$(this).closest('.input-group').find('input').trigger('focus')"><i class="fa fa-calendar"></i></button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="endDatetime" class="col-sm-4 control-label" >Booking end datetime</label>
+                        <div class="col-sm-8">
+                            <div class='input-group'>
+                                <input type="text" class="form-control" id="endDatetime"
+                                       name="endDatetime" placeholder="Booking end date and time" value="{{ booking.endDatetime }}"
+                                       data-date-format="DD.MM.YYYY HH:mm" disabled>
+                                <div class="input-group-btn"><button type="button" class="btn btn-default" onclick="$(this).closest('.input-group').find('input').trigger('focus')"><i class="fa fa-calendar"></i></button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="vehicleType" class="col-sm-4 control-label">Type of vehicle</label>
+                        <div class="col-sm-8">
+                            <select name="vehicleType" id="vehicleType" class="form-control" required="true">
+                                <option value="car" {{ booking.vehicleType == 'car' ? 'selected="selected"':''}}>Car</option>
+                                <option value="van" {{ booking.vehicleType == 'van' ? 'selected="selected"':''}}>Van</option>
+                                <option value="truck" {{ booking.vehicleType == 'truck' ? 'selected="selected"':''}}>Truck</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="licencePlateNumber" class="col-sm-4 control-label">Licence plate number</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="licencePlateNumber" value="{{ booking.licencePlateNumber }}"
+                                   id="licencePlateNumber" class="form-control" placeholder="Example: AA9999QQ" required="true"
+                                   minlength="4" maxlength="9" pattern="[A-Z0-9]+">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="phoneNumber" class="col-sm-4 control-label">Phone number</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="phoneNumber" value="{{ booking.phoneNumber }}"
+                                   id="phoneNumber" class="form-control" placeholder="Example: 380661234567" required="true"
+                                   minlength="5" pattern="[0-9]+">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="garageID" class="col-sm-4 control-label">Garage</label>
+                        <div class="col-sm-8">
+                            <select name="garageID" id="garageID" class="form-control" required="true">
+                                <option value=""></option>
+                                {% for garage in garages %}
+                                <option value="{{ garage.id }}" {{ booking.garage.id == garage.id or booking.garageID == garage.id ? 'selected="selected"':''}}>
+                                    {{ garage.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="lineID" class="col-sm-4 control-label">Line</label>
+                        <div class="col-sm-8">
+                            <select name="lineID" id="lineID" class="form-control" title="Choose the line in the garage" required="true">
+                                <option value=""></option>
+                                {% for line in lines %}
+                                <option value="{{ line.id }}" {{ booking.lineID == line.id ? 'selected="selected"':''}}>
+                                    {{ line.uniqueID }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="needTyreStorage" class="col-sm-4 control-label">Need tyre storage?</label>
+                        <div class="col-sm-8">
+                            <label class="checkbox-inline"><input type="checkbox" name="needTyreStorage" id="needTyreStorage" value="1" {{ booking.needTyreStorage == 1 ? 'checked' : '' }}> Yes </label>
+                        </div>
+                    </div>
+                    <div id="tyreSlots-block" class="form-group required" style="{{ booking.needTyreStorage != 1 ? 'display:none;' : '' }}">
+                        <label for="tyresQty" class="col-sm-4 control-label">Tyres quantity</label>
+                        <div class="col-sm-8">
+                            <input type="number" name="tyresQty" value="{{ booking.tyresQty }}"
+                                   id="tyresQty" class="form-control" placeholder="Tyres quantity"
+                                   required="true" min="1" max="8">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="details" class="col-sm-4 control-label">Details</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="details" name="details" rows="5" placeholder="Write down additional details/preferences about your booking...">{{ booking.details }}</textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a href="/booking" role="button" class="btn btn-danger">Back</a>
+                        <button type="submit" class="btn btn-primary" id="save-form">
+                            {{ booking.id is null or booking.id == '' ? "Add" : "Save changes"}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

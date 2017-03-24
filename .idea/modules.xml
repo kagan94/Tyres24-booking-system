@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/helmes-bootcamp-php.iml" filepath="$PROJECT_DIR$/.idea/helmes-bootcamp-php.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../helmes-bootcamp-php-symfony/.idea/helmes-bootcamp-php-symfony.iml" filepath="$PROJECT_DIR$/../helmes-bootcamp-php-symfony/.idea/helmes-bootcamp-php-symfony.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../localhost/.idea/localhost.iml" filepath="$PROJECT_DIR$/../localhost/.idea/localhost.iml" />
+    </modules>
+  </component>
+</project>

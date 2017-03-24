@@ -1,0 +1,34 @@
+{% extends "index.twig" %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert" style="display: none;">
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form class="form-horizontal" method='post' action='/login'>
+                <h1 class="text-center">Login form</h1>
+                <br>
+                <div class="form-group">
+                    <label for="inputLogin">Login</label>
+                    <input type="text" id="inputLogin" name='login' value="test" class="form-control" placeholder="Login" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" id="inputPassword" name="password" value="test" class="form-control" placeholder="Password" required>
+                </div>
+                <div class="row">
+                    <div class="text-center">
+                        <button class="col-md-6 btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

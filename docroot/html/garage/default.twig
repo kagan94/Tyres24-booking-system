@@ -1,0 +1,59 @@
+{% extends "index.twig" %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="pull-left">Garages List</h1>
+            <a href="/garage/add" role="button" class="btn btn-success pull-right" id="new-garage">New Garage</a>
+        </div>
+    </div>
+
+    {# Bookings #}
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="garages" class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center" width="5%">#</th>
+                    <th class="text-center" width="5%">ID</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Address</th>
+                    <th class="text-center">TyreStorage</th>
+                    <th class="text-center">Slots</th>
+                    <th class="text-center">Service lines</th>
+                    <th class="text-center" width="10%">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for garage in garages %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="text-center">
+                        <a href="/garage/edit/{{ garage.id }}" class="garage-details" id="garage-details-{{ garage.id }}">
+                            {{ garage.id }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ garage.name }}</td>
+                    <td class="text-center">{{ garage.address }}</td>
+                    <td class="text-center">{{ garage.hasTyreStorage == 1 ? '<span style="color:green;"><b>Yes</b></span>' : 'No' }}</td>
+                    <td class="text-center">{{ garage.hasTyreStorage == 1 ? garage.tyreSlots : '-' }}</td>
+                    <td class="text-left" width="18%">
+                    {% for line in garage.lines %}
+                        <b>UID: {{ line.uniqueID }}</b>
+                        ({{ line.canServeVansAndTrucks == 1 ? 'Cars/Vans/Trucks' : 'Only Cars' }}) <br>
+                    {% endfor %}
+                    </td>
+                    <td class="text-center actions">
+                        <a href="/garage/edit/{{ garage.id }}" title="Edit garage"><span class="glyphicon glyphicon-pencil fa-2x"></span></a>
+                        <a href="/garage/remove/{{ garage.id }}" title="Remove garage"><span class="glyphicon glyphicon-remove fa-2x"></span></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{
+  "name": "Helmes Bootcamp",
+  "description": "Helmes Bootcamp sample application",
+  "license": "GNU GPL3",
+  "version": "1.0",
+  "require": {
+    "doctrine/orm": "2.5.*",
+    "doctrine/common": "2.6.*",
+    "doctrine/dbal": "2.5.*",
+    "twig/twig": "^1.32",
+    "phroute/phroute": "2.1.*",
+    "monolog/monolog": "^1.18",
+    "doctrine/cache": "1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.3.*",
+    "mockery/mockery": "0.9.*"
+  }
+}

@@ -1,0 +1,44 @@
+body {
+    background-color: #fff;
+    color: #333;
+    font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif;
+}
+.navbar-nav.navbar-right > li:last-child {
+    margin-right: 50px;
+}
+#new-booking {
+    margin-top: 20px;
+}
+.error {
+    color: #ff6767;
+}
+#bookings tr .actions a {
+    margin-right: 2px;
+}
+#bookings tr.cancelled {
+    background: grey;
+    color: white;
+    text-decoration: line-through;
+}
+#bookings tr.modified {
+    background: #ff9292;
+    color: white;
+}
+#bookings tr.cancelled a,
+#bookings tr.cancelled a > span,
+#bookings tr.modified a,
+#bookings tr.modified a > span {
+    color: white;
+}
+
+/* Additions to bootstrap styles */
+div.input-group-btn {
+    vertical-align: top;
+}
+.form-group.required .control-label:after {
+    content:" *";
+    color:red;
+}
+.week-picker .ui-datepicker {
+    margin: 0 auto;
+}

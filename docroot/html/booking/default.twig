@@ -1,0 +1,131 @@
+{% extends "index.twig" %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="pull-left">Bookings List</h1>
+            <a href="/booking/add" role="button" class="btn btn-success pull-right" id="new-booking">New Booking</a>
+        </div>
+    </div>
+
+    {# Filter #}
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" id="filter-bookings" method="get" action="{{ form_action }}">
+                <fieldset>
+                    <legend>Filter bookings</legend>
+                    <div class="form-group">
+                        <label for="garageID" class="col-sm-2 control-label">Garage</label>
+                        <div class="col-sm-10">
+                            <select name="garageID" id="garageID" class="form-control">
+                                <option value=""></option>
+                                {% for garage in garages %}
+                                    <option value="{{ garage.id }}" {{ filter.garageID == garage.id ? 'selected="selected"':''}}>
+                                        {{ garage.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDatetime" class="col-sm-2 control-label" >Booking date</label>
+                        <div class="col-sm-10">
+                            <div class='input-group'>
+                                <input type="text" class="form-control datetime" id="startDatetime" name="startDatetime"
+                                       placeholder="Booking start date and time" value="{{ filter.startDatetime }}"
+                                       data-date-format="DD.MM.YYYY">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="garageID" class="col-sm-2 control-label">Type of service line</label>
+                        <div class="col-sm-10">
+                            <select name="lineType" id="serviceLine" class="form-control">
+                                <option value="" {{ filter.lineType == '' ? 'selected="selected"':''}}>Cars/Trucks/Vans (all types of vehicle)</option>
+                                <option value="carsOnly" {{ filter.lineType == 'carsOnly' ? 'selected="selected"':''}}>Cars Only</option>
+                            </select>
+                        </div>
+                    </div>
+                    {#<div class="form-group">
+                        <label for="lineID" class="col-sm-2 control-label">Line</label>
+                        <div class="col-sm-10">
+                            <select name="lineID" id="lineID" class="form-control" title="Choose the line in the garage">
+                                <option value=""></option>
+                                {% for line in lines %}
+                                <option value="{{ line.id }}" {{ filter.lineID == line.id ? 'selected="selected"':''}}>
+                                    {{ line.id }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>#}
+                    {#<div class="form-group">
+                        <label for="tyresQty" class="col-sm-2 control-label">Tyres quantity</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="tyresQty" name="tyresQty" placeholder="Number of tyres" value="{{ filter.tyresQty }}">
+                        </div>
+                    </div>#}
+
+                </fieldset>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary" id="filter">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    {# Bookings #}
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="bookings" class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center" width="4%">#</th>
+                    <th class="text-center" width="4%">ID</th>
+                    <th class="text-center">Garage</th>
+                    <th class="text-center">Booking start time</th>
+                    <th class="text-center">Vehicle type</th>
+                    <th class="text-center" width="15%">Licence plate number</th>
+                    <th class="text-center" width="10%">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for booking in bookings %}
+
+                {% set row_class = '' %}
+                {% if booking.status == 'cancelled' %}
+                    {% set row_class = 'cancelled' %}
+                {% elseif booking.datetimeModified is not null %}
+                    {% set row_class = 'modified' %}
+                {% endif %}
+
+                <tr class="{{ row_class }}">
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="text-center">
+                        <a href="/booking/edit/{{ booking.id }}" class="booking-details" id="booking-details-{{ booking.id }}">
+                            {{ booking.id }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ booking.garage.name}}</td>
+                    <td class="text-center">{{ booking.startDatetime }}</td>
+                    <td class="text-center">{{ booking.vehicleType }}</td>
+                    <td class="text-center">{{ booking.licencePlateNumber }}</td>
+                    <td class="text-center actions">
+                        <a href="/booking/edit/{{ booking.id }}" title="Edit booking"><span class="glyphicon glyphicon-pencil fa-2x"></span></a>
+                        <a href="/booking/cancel/{{ booking.id }}" title="Cancel booking"><span class="glyphicon glyphicon-ban-circle fa-2x"></span></a>
+                        <a href="/booking/remove/{{ booking.id }}" title="Remove booking"><span class="glyphicon glyphicon-remove fa-2x"></span></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "index.twig" %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Welcome on Tyres24!</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h3><a href="/booking/add">Make a reservation for tire exchange<a/></h3>
+        </div>
+        <div class="col-md-6 text-center">
+            <h3>
+                {% if session.login %}
+                    <a href="/login/exit">Exit from current account</a>
+                {% else %}
+                    <a href="/login">Go to "Login" page</a>
+                {% endif %}
+            </h3>
+        </div>
+    </div>
+</section>
+{% endblock %}

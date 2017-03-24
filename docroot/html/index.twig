@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'fragments/head.twig' %}
+    <body>
+        {% include 'fragments/menu.twig' %}
+        <div id="body">
+            <!-- Main page content -->
+            {% block content %}{% endblock %}
+        </div>
+        <!-- Include footer -->
+        {% include 'fragments/footer.twig' %}
+    </body>
+</html>

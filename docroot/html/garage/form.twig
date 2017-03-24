@@ -1,0 +1,119 @@
+{% extends "index.twig" %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert" style="display: none;">
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ garage.id is null ? "New Garage" : "Edit existing garage" }}</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form class="form-horizontal" id="new-garage" method="post" action="{{ form_action }}">
+                <fieldset>
+                    <legend>Please enter the garage information</legend>
+                    <div class="form-group required">
+                        <label for="name" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="id" value="{{ garage.id }}" class="hidden" \>
+                            <input type="text" name="name" value="{{ garage.name }}" id="name" class="form-control"
+                                   placeholder="Garage Name" required="true" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="address" class="col-sm-2 control-label">Address</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="address" value="{{ garage.address }}" id="address" class="form-control"
+                                   placeholder="Garage Address" required="true" maxlength="200">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="hasTyreStorage" class="col-sm-2 control-label">Tyre Storage (Tyre Hotel)?</label>
+                        <div class="col-sm-10">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="hasTyreStorage" id="hasTyreStorage"
+                                       value="1" {{ garage.hasTyreStorage == 1 ? 'checked' : '' }}>
+                                Yes
+                            </label>
+                        </div>
+                    </div>
+                    <div id="tyreSlots-block" class="form-group" style="{{ garage.hasTyreStorage == 0 ? 'display: none;' : '' }}">
+                        <label for="tyreSlots" class="col-sm-2 control-label">Number of Tyre Slots</label>
+                        <div class="col-sm-10">
+                            <input type="number" name="tyreSlots" value="{{ garage.tyreSlots }}" id="tyreSlots" class="form-control"
+                                   placeholder="How many slots does this garage have? (number)" max="400">
+                        </div>
+                    </div>
+
+                    {# "Lines" section #}
+                    <div class="form-group">
+                        <label for="tyreSlots" class="col-sm-2 control-label">Service Lines</label>
+                        <div class="col-sm-10">
+                            <table id="lines" class="table">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Unique ID (1..10)</th>
+                                    <th class="text-center">Can serve Vans and Trucks?</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for line in lines %}
+                                {% set counter = loop.index %}
+                                <tr class="line line-{{ counter }}">
+                                    <td class="hidden">
+                                        <input type="text" name="lines[lineID][{{ counter }}]" value="{{ line.id }}">
+                                        <input type="text" name="lines[remove][{{ counter }}]" value="0" class="remove">
+                                    </td>
+
+                                    <td class="text-center">{{ line.id }}</td>
+                                    <td>
+                                        <input type="text" id="lines" name="lines[uniqueID][{{ counter }}]" value="{{ line.uniqueID }}"
+                                               class="form-control text-center validate-uniqueID" placeholder="Unique ID (any, from 1 to 10)"
+                                               required="true" maxlength="2" pattern="[1-9]|10" unique="true">
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="lines[canServeVansAndTrucks][{{ counter }}]" value="1"
+                                                {{ line.canServeVansAndTrucks ? 'checked' : '' }} />
+                                    </td>
+                                    <td class="text-center">
+                                        <a onclick="removeLine($(this).parent().parent()); return false;" title="Remove line">
+                                            <span class="glyphicon glyphicon-remove fa-2x"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr class="add-new-line">
+                                    <td colspan="3"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" onclick="addNewLine(); return false;"
+                                                id="add-new-line">Add new line</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a href="/garage" role="button" class="btn btn-danger">Back</a>
+                        <button type="submit" class="btn btn-primary" id="save-form">
+                            {{ garage.id is null ? "Add" : "Save changes"}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

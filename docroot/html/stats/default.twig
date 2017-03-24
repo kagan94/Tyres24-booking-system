@@ -1,0 +1,189 @@
+{% extends "index.twig" %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="pull-left">Statistics</h1>
+        </div>
+    </div>
+
+    {# Weather forecast #}
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="pull-left" style="border-bottom: 1px dotted;">Weather forecast</h2>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        {{ weather.nextDay1 }}
+                        {% if weather.markNextDay1 %}
+                            <a href="/stats/weather/unmark/1" class="btn btn-primary btn-sm pull-right"
+                               title="Remove warning icon"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                        {% else %}
+                            <a href="/stats/weather/mark/1" class="btn btn-danger btn-sm pull-right"
+                               title="Add warning icon"><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </th>
+                    <th class="text-center">
+                        {{ weather.nextDay2 }}
+                        {% if weather.markNextDay2 %}
+                            <a href="/stats/weather/unmark/2" class="btn btn-primary btn-sm pull-right"
+                               title="Remove warning icon"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                        {% else %}
+                            <a href="/stats/weather/mark/2" class="btn btn-danger btn-sm pull-right"
+                               title="Add warning icon"><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </th>
+                    <th class="text-center">
+                        {{ weather.nextDay3 }}
+                        {% if weather.markNextDay3 %}
+                            <a href="/stats/weather/unmark/3" class="btn btn-primary btn-sm pull-right"
+                               title="Remove warning icon"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                        {% else %}
+                            <a href="/stats/weather/mark/3" class="btn btn-danger btn-sm pull-right"
+                               title="Add warning icon"><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </th>
+                    <th class="text-center">
+                        {{ weather.nextDay4 }}
+                        {% if weather.markNextDay4 %}
+                        <a href="/stats/weather/unmark/4" class="btn btn-primary btn-sm pull-right"
+                           title="Remove warning icon"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                        {% else %}
+                        <a href="/stats/weather/mark/4" class="btn btn-danger btn-sm pull-right"
+                           title="Add warning icon"><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr style="color: red; font-weight: bold; font-size: 15px; ">
+                        <td class="text-center">{{ weather.markNextDay1 ? '!' }}</td>
+                        <td class="text-center">{{ weather.markNextDay2 ? '!' }}</td>
+                        <td class="text-center">{{ weather.markNextDay3 ? '!' }}</td>
+                        <td class="text-center">{{ weather.markNextDay4 ? '!' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    {# Monthly stat #}
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="pull-left" style="border-bottom: 1px dotted;">Monthly dynamics</h2>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th class="text-center">Garage</th>
+                    <th class="text-center">Service Line</th>
+                    <th class="text-center">Previous month</th>
+                    <th class="text-center">Current month</th>
+                    <th class="text-center">%</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for record in monthlyStatsRecords %}
+                <tr>
+                    <td class="text-left">{{ record.garage }}</td>
+                    <td class="text-center">{{ record.uniqueID }}</td>
+                    <td class="text-center">{{ record.prevMonth }}</td>
+                    <td class="text-center">{{ record.currMonth }}</td>
+                    <td class="text-center">
+                        {{ record.prevMonth == 0 ? record.currMonth * 100 : (record.currMonth / record.prevMonth) * 100}}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    {# Weekly stat #}
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="pull-left" style="border-bottom: 1px dotted;">Weekly statistics <small>(except removed and cancelled bookings)</small></h2>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        {# Filter #}
+        <div class="col-md-4">
+            <form class="form-horizontal" id="filter-weekly-stats" method="get" action="{{ form_action }}">
+                <div class="form-group">
+                    <div class="text-center" style="margin-bottom: 7px;"><b>Click on the preferable week</b></div>
+                    <div class="week-picker"></div><br>
+                    <label class="col-sm-4">Chosen Week :</label>
+                    <input type="text" name="startDate" id="startDate" class="text-center" style="width: 80px"
+                           value="{{ filter.startDate ? filter.startDate : '' }}" /> -
+                    <input type="text" name="endDate" id="endDate" class="text-center" style="width: 80px"
+                           value="{{ filter.endDate ? filter.endDate : '' }}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookingType" class="col-sm-4 control-label">Show</label>
+                    <div class="col-sm-8">
+                        <select name="bookingType" id="bookingType" class="form-control">
+                            <option value="all" {{ filter.bookingType == 'vansTrucksOnly' ? 'selected="selected"':''}}>All bookings (Total)</option>
+                            <option value="carsOnly" {{ filter.bookingType == 'vansTrucksOnly' ? 'selected="selected"':''}}>Car booking only</option>
+                            <option value="vansTrucksOnly" {{ filter.bookingType == 'vansTrucksOnly' ? 'selected="selected"':''}}>Van/truck bookings only</option>
+                        </select>
+                    </div>
+                </div>
+                {# Button submit #}
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-success" style="padding: 10px 60px;" id="button-filter-weekly-stats">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center">Mon</th>
+                    <th class="text-center">Tue</th>
+                    <th class="text-center">Wed</th>
+                    <th class="text-center">Thu</th>
+                    <th class="text-center">Fri</th>
+                    <th class="text-center">Sat</th>
+                    <th class="text-center">Sun</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for record in weeklyStatsRecords %}
+                    <tr>
+                        <td class="text-left">{{ record.garage }}</td>
+                        <td class="text-center">{{ record.mon }}</td>
+                        <td class="text-center">{{ record.tue }}</td>
+                        <td class="text-center">{{ record.wed }}</td>
+                        <td class="text-center">{{ record.thu }}</td>
+                        <td class="text-center">{{ record.fri }}</td>
+                        <td class="text-center">{{ record.sat }}</td>
+                        <td class="text-center">{{ record.sun }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+</section>
+{% endblock %}

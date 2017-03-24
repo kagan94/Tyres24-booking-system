@@ -1,0 +1,20 @@
+
+
+13/3/17 21:00-00:00:
+Setting up the dev environment.
+Reading the assignment and figuring out the tasks.
+Familiarized with structure of the project.
+
+19/3/17 ~3 hours:
+Get acquainted with Twig, Doctrine Common Framework, Authentification and other works.
+
+20/3/17 ~8-9 hours:
+Get acquainted with Doctrine queries structure, added sections "Garages", "Lines".
+Added possibility to filter bookings.
+
+21/3/17 10:00-14:00, 18:00-22:00, 23:30-03:00
+Impoved the filter on bookings page, forms.
+Validation, testing, fixing bugs, rereading the task...
+
+22/3/17 10:00-15:30, 19:00-04:00
+Statistics, weather forecast, fixing bugs, check on duplicate/time slot/tire slots (validation)
