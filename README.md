@@ -1,7 +1,5 @@
 # Tyres24 booking system
-This project was a test assignment from the "[Helmes – Business Software Alchemists](https://www.helmes.ee)".
-
-**_[Link to the assignment.](../Technical_assignment.pdf)_**
+This project was a **_[test assignment](../Technical_assignment.pdf)_** from the "[Helmes – Business Software Alchemists](https://www.helmes.ee)".
 
 
 **The idea of the project** is to create a service to allow the customers to book the time for tire exchange or other works in one of the garages of Tyres24 and allow to owners to collect the statistics about bookings.
@@ -19,22 +17,22 @@ This project was a test assignment from the "[Helmes – Business Software Alche
 
 ## Tyres24 screenshots
 ### Main page
-![main](../screenshots/main.png)
+![main](https://raw.githubusercontent.com/kagan94/Tyres24-booking-system/master/screenshots/main.png)
 
 ### Login page
-![login](../screenshots/login.png)
+![login](https://raw.githubusercontent.com/kagan94/Tyres24-booking-system/master/screenshots/login.png)
 
 ### List all bookings
-![all-bookings](../screenshots/all-bookings.png)
+![all-bookings](https://raw.githubusercontent.com/kagan94/Tyres24-booking-system/master/screenshots/all-bookings.png)
 
 ### New/Edit booking
-![new-booking](../screenshots/new-booking.png)
+![new-booking](https://raw.githubusercontent.com/kagan94/Tyres24-booking-system/master/screenshots/new-booking.png)
 
 ### List all garages
-![all-garages](../screenshots/all-garages.png)
+![all-garages](https://raw.githubusercontent.com/kagan94/Tyres24-booking-system/master/screenshots/all-garages.png)
 
 ### New/Edit garage
-![edit-garage](../screenshots/edit-garage.png)
+![edit-garage](https://raw.githubusercontent.com/kagan94/Tyres24-booking-system/master/screenshots/edit-garage.png)
 
 ### Statistics
-![statistics](../screenshots/statistics.png)
+![statistics](https://raw.githubusercontent.com/kagan94/Tyres24-booking-system/master/screenshots/statistics.png)
