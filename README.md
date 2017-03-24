@@ -1,5 +1,5 @@
 # Tyres24 booking system
-This project was a **_[test assignment](../Technical_assignment.pdf)_** from the "[Helmes – Business Software Alchemists](https://www.helmes.ee)".
+This project was a **_[test assignment](https://github.com/kagan94/Tyres24-booking-system/blob/master/Bootcamp%20PHP%20%E2%80%93%20setup%20tutorial.pdf)_** from the "[Helmes – Business Software Alchemists](https://www.helmes.ee)".
 
 
 **The idea of the project** is to create a service to allow the customers to book the time for tire exchange or other works in one of the garages of Tyres24 and allow to owners to collect the statistics about bookings.
