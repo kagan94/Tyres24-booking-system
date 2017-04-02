@@ -2,7 +2,7 @@
 This project was a **_[test assignment](../master/Technical_assignment.pdf)_** from the "[Helmes – Business Software Alchemists](https://www.helmes.ee)".
 
 
-**The idea of the project** is to create a service to allow the customers to book the time for tire exchange in one of the garages of Tyres24 and allows the owners to collect the statistics about bookings.
+**The idea of the project** is to create a service to allow the customers to book the time for tyre exchange in one of the garages of Tyres24 and allows the owners to collect the statistics about bookings.
 
 ## Technologies:
 **Back-end side:**
